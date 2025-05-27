@@ -1,6 +1,7 @@
 import { Title } from './styled';
 import { Container } from '../../styles/global.styles';
-import GlobalStyle from 'styled-components';
+import GlobalStyle from '../../styles/global.styles';
+
 export default function Login() {
   return (
     <>
@@ -12,6 +13,7 @@ export default function Login() {
           <a>teste</a>
         </Title>
         <p>Aute fugiat minim dolore sint magna in.</p>
+        <button type="button">Enviar</button>
       </Container>
     </>
   );
