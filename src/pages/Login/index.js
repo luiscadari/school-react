@@ -1,12 +1,17 @@
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 
 import { Title } from './styled';
 import { Container } from '../../styles/global.styles';
 import GlobalStyle from '../../styles/global.styles';
 
 export default function Login() {
-  function alertToast() {
+  const dispatch = useDispatch();
+  function handleClick(e) {
     toast.success('oi');
+    e.preventDefault();
+    console.log('Button clicked');
+    dispatch({ type: 'TESTE_BOTAO', payload: { message: 'Hello from Login' } });
   }
   return (
     <>
@@ -18,7 +23,7 @@ export default function Login() {
           <a>teste</a>
         </Title>
         <p>Aute fugiat minim dolore sint magna in.</p>
-        <button onClick={alertToast} type="button">
+        <button onClick={handleClick} type="button">
           Enviar
         </button>
       </Container>
