@@ -2,36 +2,58 @@ import js from "@eslint/js";
 import globals from "globals";
 import pluginReact from "eslint-plugin-react";
 import css from "@eslint/css";
-import { defineConfig } from "eslint/config";
+import { FlatCompat } from '@eslint/eslintrc';
+import path from 'path';
+import reactHooks from "eslint-plugin-react-hooks"
+import { fileURLToPath } from 'url';
 
-export default defineConfig([
+// Compatibilidade para configurações estilo ESLintRC
+const compat = new FlatCompat({
+  baseDirectory: path.dirname(fileURLToPath(import.meta.url))
+});
+
+export default [
+  js.configs.recommended,
+  ...compat.extends('plugin:react/recommended', 'plugin:react-hooks/recommended', 'prettier'),
+
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
-    plugins: [js, "react", "prettier", "react-hooks"],
-    extends: [
-      "js/recommended",
-      "prettier",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended",
-    ],
-    rules: {
-      "prettier/prettier": "error",
-      "react/jsx-filename-extension": 0,
-      "import/prefer-default-export": 0,
-      "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-      "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      },
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true
+        },
+        ecmaVersion: 'latest',
+        sourceType: 'module'
+      }
     },
+    plugins: {
+      react: pluginReact,
+      'react-hooks': reactHooks,
+    },
+    rules: {
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    },
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    }
   },
-  { parser: "babel-eslint" },
-  {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
-    languageOptions: { globals: globals.browser },
-  },
-  pluginReact.configs.flat.recommended,
+
   {
     files: ["**/*.css"],
-    plugins: { css },
-    language: "css/css",
-    extends: ["css/recommended"],
-  },
-]);
+    plugins: {
+      css
+    },
+    languageOptions: {
+      parser: css
+    }
+  }
+];
