@@ -1,9 +1,10 @@
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import React from 'react';
 
 import { Title } from './styled';
-import { Container } from '../../styles/global.styles';
-import GlobalStyle from '../../styles/global.styles';
+import GlobalStyle, { Container } from '../../styles/global.styles';
+import * as exampleActions from '../../store/modules/example/actions';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ export default function Login() {
     toast.success('oi');
     e.preventDefault();
     console.log('Button clicked');
-    dispatch({ type: 'TESTE_BOTAO', payload: { message: 'Hello from Login' } });
+    dispatch(exampleActions.clickedButton());
   }
   return (
     <>

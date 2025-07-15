@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { Nav } from './styled';
 export default function Header() {
-  const selector = useSelector((state) => console.log(state));
+  const selector = useSelector((state) => state.selector);
   return (
     <Nav>
       <Link to="/">
