@@ -1,3 +1,5 @@
+import * as types from '../types';
+
 const initialState = {
   message: 'Hello, World!',
   button: false,
@@ -5,11 +7,17 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'TESTE_BOTAO': {
-      console.log('Action received:', action);
-      const newState = { ...state };
-      newState.botaoClicado = !newState.botaoClicado;
-      return newState;
+    case types.BUTTON_CLICK_REQUEST: {
+      console.log('Action request:', action);
+      return state;
+    }
+    case types.BUTTON_CLICK_SUCCESS: {
+      console.log('Action success:', action);
+      return state;
+    }
+    case types.BUTTON_CLICK_FAILURE: {
+      console.error('Action failure:', action);
+      return state;
     }
     default: {
       return state;

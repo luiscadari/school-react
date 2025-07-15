@@ -12,7 +12,7 @@ export default function Login() {
     toast.success('oi');
     e.preventDefault();
     console.log('Button clicked');
-    dispatch(exampleActions.clickedButton());
+    dispatch(exampleActions.clickedButtonRequest());
   }
   return (
     <>
