@@ -3,6 +3,8 @@ import * as colors from '../config/colors.config';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default createGlobalStyle`
+
+
 *{
   margin: 0;
   padding: 0;
@@ -12,6 +14,7 @@ export default createGlobalStyle`
 
 body {
   background: ${colors.primaryColorDarkBg};
+  font-family: "Roboto", serif;
 }
 
 
@@ -49,7 +52,14 @@ body .Toastify .Toastify__toast-container .Toastify__toast--error{
 `;
 
 export const Container = styled.section`
-  max-width: 40%;
+  max-width: 60%;
   background-color: white;
-  margin: auto;
+  margin: 5% auto ;
+  padding: 20px;
+  height: auto;
+  border-radius: 10px;
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+  }
 `;
