@@ -6,3 +6,11 @@ export const Title = styled.h1`
   }
   //color: ${(props) => (props.isRed ? 'red' : 'blue')};
 `;
+
+export const ProfilePicture = styled.div`
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+`;
