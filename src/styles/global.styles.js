@@ -30,7 +30,20 @@ button{
   padding: 10px 20px;
   border-radius: 4px;
   font-weight: 700;
+  // forma como eu fiz:
+  /* &:hover{
+    background-color: ${colors.primaryColorDarkBg};
+    transition: ease-in 0.2s;
+  } */
+  // forma como o professor ensinou e que eu não conhecia:
+  transition: all 300ms; // deixa as transições mais suave, comportamento esse que eu alcancei usando o ease-in;
+  &:hover{
+    filter: brightness(75%) // usei a minha forma de aplicar o hover na tag button, mas o atributo filter que aplica o estilo de hover vou mostrado pelo professor, entretanto, achei a forma como eu declarei o hover mais legível;
+  }
 }
+
+// forma como o professor declarou o hover;
+//button:hover{...}
 
 a{
   text-decoration: none;
@@ -54,7 +67,7 @@ body .Toastify .Toastify__toast-container .Toastify__toast--error{
 export const Container = styled.section`
   max-width: 60%;
   background-color: white;
-  margin: 5% auto ;
+  margin: 5% auto;
   padding: 20px;
   height: auto;
   border-radius: 10px;
