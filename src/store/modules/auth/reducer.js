@@ -11,11 +11,21 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.LOGIN_REQUEST: {
       const newState = { ...state };
+      newState.isLoading = true;
+      return newState;
+    }
+    case types.LOGIN_FAILURE: {
+      const newState = { ...initialState };
+      return newState;
+    }
+    case types.LOGIN_SUCCESS: {
+      const newState = { ...state };
       // Forma como eu pensei que fica mais limpa;
       Object.keys(newState).forEach((key) => {
         newState[key] = action.payload[key];
       });
       if (!newState.isLoggedIn) newState.isLoggedIn = true;
+      newState.isLoading = false;
       return newState;
       // Forma como o professor passou na aula
       /*
@@ -24,13 +34,6 @@ const reducer = (state = initialState, action) => {
       newState.user = action.user;
       return state;
       */
-    }
-    case types.LOGIN_FAILURE: {
-      const newState = { ...initialState };
-      return newState;
-    }
-    case types.LOGIN_SUCCESS: {
-      return state;
     }
     default: {
       return state;
