@@ -7,24 +7,32 @@ import { FaUserCircle, FaEdit, FaWindowClose } from 'react-icons/fa';
 import { Container } from '../../styles/global.styles';
 import { ProfilePicture, StudentContainer } from './styled';
 import axios from '../../config/axios.config';
+import Loading from '../../components/Loading';
 
 export default function Students() {
   const [students, setStudents] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
     async function getStudents() {
+      setIsLoading(true);
       const response = await axios.get('/students');
       console.log(response.data);
       setStudents(response.data);
     }
 
-    getStudents().catch((e) => {
-      console.error('Error fetching students:', e);
-      toast('Failed to fetch students. Please try again later.');
-    });
+    getStudents()
+      .catch((e) => {
+        console.error('Error fetching students:', e);
+        toast('Failed to fetch students. Please try again later.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
   return (
     <>
       <Container>
+        <Loading isLoading={isLoading} />
         <h1>Students Page - Home</h1>
         <StudentContainer>
           {students.map((student) => (
