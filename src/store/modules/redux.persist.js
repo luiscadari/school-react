@@ -6,7 +6,7 @@ export default (reducers) => {
     {
       key: 'school-react',
       storage,
-      whitelist: ['example'], // Add the reducers you want to persist
+      whitelist: ['auth'], // Add the reducers you want to persist
     },
     reducers
   );
