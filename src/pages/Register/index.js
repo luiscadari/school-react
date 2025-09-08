@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import isEmail from 'validator/lib/isEmail';
 import { toast } from 'react-toastify';
 import { get } from 'lodash';
@@ -8,40 +9,38 @@ import axios from '../../config/axios.config';
 import history from '../../services/history';
 import { Form } from './styled';
 import Loading from '../../components/Loading';
+import * as actions from "../../store/modules/auth/actions";
 
 export default function Register() {
+  const id = useSelector((state) => state.auth.user.id);
+  const dispatch = useDispatch();
+  const nameStored = useSelector((state) => state.auth.user.name);
+  const emailStored = useSelector((state) => state.auth.user.email);
+  const isLoading = useSelector((state) => state.auth.isLoading);
+
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!id) return;
+    setName(nameStored);
+    setEmail(emailStored);
+  }, [nameStored, emailStored, id]);
+
   async function handleSubmit(e) {
-    setIsLoading(true);
     e.preventDefault();
     const errors = [];
     if (name.length < 3 || name.length > 255)
       errors.push('O nome deve ter entre 3 à 255 caracteres');
-    if (password.length < 6 || password.length > 50)
+    if (!id && (password.length < 6 || password.length > 50))
       errors.push('A senha deve ter entre 6 à 50 caracteres');
     if (!isEmail(email)) errors.push('Insira um e-mail válido');
     if (errors.length > 0) {
       errors.forEach((error) => toast.error(error));
       return;
     }
-    try {
-      await axios.post('/users', {
-        name,
-        password,
-        email,
-      });
-      setIsLoading(false);
-      toast.success('Cadastro realizado com sucesso!');
-      history.push('/login');
-    } catch (e) {
-      setIsLoading(false);
-      const errors = get(e, 'response.data.errors', []);
-      if (errors.length > 0) errors.forEach((e) => toast.error(e));
-      console.log(e);
-    }
+    dispatch(actions.loginRequest({ name, email, password, id }));
   }
   return (
     <>
@@ -76,7 +75,7 @@ export default function Register() {
               placeholder="Insira sua senha"
             />
           </label>
-          <button type="submit">Registrar</button>
+          <button type="submit">{id ? 'Atualizar' : 'Registrar'}</button>
         </Form>
       </Container>
     </>
