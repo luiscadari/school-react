@@ -27,7 +27,33 @@ function persistRehydrate(payload) {
   axios.defaults.headers.Authorization = `Bearer ${token}`;
 }
 
+function* registerRequest({ payload }) {
+  const { name, email, password, id } = payload;
+  try {
+    yield call(id ? axios.put : axios.post, '/users', {
+      email,
+      name,
+      password,
+      id,
+    });
+    toast.success(
+      id ? 'Conta alterada com sucesso!' : 'Conta criada com sucesso!'
+    );
+    yield put(actions.registerSuccess({ name, email, password }));
+  } catch (e) {
+    const errors = get(e, 'response.data.error', []);
+    //TODO: usuário não logado
+    if (errors.length > 0) {
+      errors.map((e) => toast.error(e));
+    } else {
+      toast.error('Internal server error.');
+    }
+    yield put(actions.registerFailure());
+  }
+}
+
 export default all([
   takeLatest(types.PERSIST_REHYDRATE, persistRehydrate),
   takeLatest(types.LOGIN_REQUEST, loginRequest),
+  takeLatest(types.REGISTER_REQUEST, registerRequest),
 ]);

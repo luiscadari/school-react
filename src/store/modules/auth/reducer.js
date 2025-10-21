@@ -18,6 +18,23 @@ const reducer = (state = initialState, action) => {
       const newState = { ...initialState };
       return newState;
     }
+    case types.REGISTER_REQUEST: {
+      const newState = { ...state };
+      newState.isLoading = true;
+      return newState;
+    }
+    case types.REGISTER_SUCCESS: {
+      const newState = { ...state };
+      newState.user.name = action.payload.name;
+      newState.user.email = action.payload.email;
+      newState.isLoading = false;
+      return newState;
+    }
+    case types.REGISTER_FAILURE: {
+      const newState = { ...state };
+      newState.isLoading = true;
+      return newState;
+    }
     case types.LOGIN_SUCCESS: {
       const newState = { ...state };
       // Forma como eu pensei que fica mais limpa;

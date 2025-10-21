@@ -40,7 +40,7 @@ export default function Register() {
       errors.forEach((error) => toast.error(error));
       return;
     }
-    dispatch(actions.loginRequest({ name, email, password, id }));
+    dispatch(actions.registerRequest({ name, email, password, id }));
   }
   return (
     <>
